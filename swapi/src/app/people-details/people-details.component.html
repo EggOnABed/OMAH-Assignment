@@ -1,3 +1,6 @@
+<a href="/people"> ----- BACK TO HOME PAGE ------</a>
+
+<h2>Character Details</h2>
 <mat-list role="list">
     <mat-list-item role="listitem"> Name - {{personDetails.name}}</mat-list-item>
     <mat-list-item role="listitem">Birth Year - {{personDetails.birth_year}}</mat-list-item>
@@ -7,5 +10,10 @@
     <mat-list-item role="listitem">Height - {{personDetails.height}}</mat-list-item>
     <mat-list-item role="listitem">Mass - {{personDetails.mass}}</mat-list-item>
     <mat-list-item role="listitem">Skin Color - {{personDetails.skin_color}}</mat-list-item>
-  </mat-list>
-  
+</mat-list>
+
+<h2>Movies worked in so far</h2>
+<mat-list role="list">
+    <mat-list-item *ngFor="let movie of moviesList">{{movie}}</mat-list-item>
+</mat-list>
+

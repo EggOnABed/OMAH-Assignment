@@ -18,14 +18,12 @@ export class PeopleComponent {
   favouritePeople: Array<any> = [];
 
   constructor(private http: HttpClient, private router: Router) {
-    debugger
     this.favouritePeople = JSON.parse(localStorage.getItem("favouritePeople") || "[]");
     this.getPeople("https://swapi.dev/api/people/",true);
    }
 
   // PAGINATION LOGIC
   onPaginateChange(event:PageEvent){
-    debugger;
     const previousPageIndex = event.previousPageIndex ? event.previousPageIndex : 0;
     const currentIndex: number = event.pageIndex*event.pageSize;
     // NEXT
@@ -51,7 +49,6 @@ export class PeopleComponent {
   // GET PEOPLE API
   async getPeople(APIurl:string, bindData:boolean = false){
     this.http.get(APIurl).subscribe((res:any)=>{
-      debugger;
       if(res.count > 0){
         (res.results as Array<any>).forEach(person=>{
           this.peopleList.push(person);
@@ -68,7 +65,6 @@ export class PeopleComponent {
 
   // MARK/UNMARK A PERSON AS FAVOURITE
   markAsFavourite(element:any){
-    debugger;
     // ADD TO LIST IF NOT ALREADY MARKED AS FAVOURITE
     if(!this.favouritePeople.some(person=>{
       return person.name === element.name;
@@ -93,7 +89,6 @@ export class PeopleComponent {
   }
 
   getPersonDetails(element:any){
-    debugger
     localStorage.setItem("personDetails",JSON.stringify(element));
     this.router.navigate(["/people-details"]);
   }
