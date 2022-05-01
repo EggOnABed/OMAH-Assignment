@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-people',
@@ -16,7 +17,7 @@ export class PeopleComponent {
   dataSource:any = [];
   favouritePeople: Array<any> = [];
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     debugger
     this.favouritePeople = JSON.parse(localStorage.getItem("favouritePeople") || "[]");
     this.getPeople("https://swapi.dev/api/people/",true);
@@ -89,5 +90,11 @@ export class PeopleComponent {
     return this.favouritePeople.some(person=>{
       return person.name === element.name;
     })
+  }
+
+  getPersonDetails(element:any){
+    debugger
+    localStorage.setItem("personDetails",JSON.stringify(element));
+    this.router.navigate(["/people-details"]);
   }
 }

@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-people-details',
   templateUrl: './people-details.component.html',
   styleUrls: ['./people-details.component.css']
 })
-export class PeopleDetailsComponent implements OnInit {
+export class PeopleDetailsComponent {
+  personDetails: any = {};
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor() { 
+    debugger
+    this.personDetails = JSON.parse(localStorage.getItem("personDetails") || "{}");
   }
 
 }
