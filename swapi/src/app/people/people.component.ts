@@ -22,6 +22,7 @@ export class PeopleComponent {
     this.getPeople("https://swapi.dev/api/people/",true);
    }
 
+  // PAGINATION LOGIC
   onPaginateChange(event:PageEvent){
     debugger;
     const previousPageIndex = event.previousPageIndex ? event.previousPageIndex : 0;
@@ -46,6 +47,7 @@ export class PeopleComponent {
     }
   }
 
+  // GET PEOPLE API
   async getPeople(APIurl:string, bindData:boolean = false){
     this.http.get(APIurl).subscribe((res:any)=>{
       debugger;
@@ -63,6 +65,7 @@ export class PeopleComponent {
     });
   }
 
+  // MARK/UNMARK A PERSON AS FAVOURITE
   markAsFavourite(element:any){
     debugger;
     // ADD TO LIST IF NOT ALREADY MARKED AS FAVOURITE
@@ -81,6 +84,7 @@ export class PeopleComponent {
     localStorage.setItem("favouritePeople",JSON.stringify(this.favouritePeople));
   }
 
+  // CHECK IF ELEMENT IS MARKED AS FAVOURITE
   isFavourite(element:any): boolean{
     return this.favouritePeople.some(person=>{
       return person.name === element.name;
