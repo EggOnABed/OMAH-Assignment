@@ -70,7 +70,20 @@ export class PeopleComponent {
       return person.name === element.name;
     })){
       this.favouritePeople.push(element);
-      localStorage.setItem("favouritePeople",JSON.stringify(this.favouritePeople));
     }
+    // IF ALREADY MARKED AS FAVOURITE
+    else{
+      const index = this.favouritePeople.findIndex(person=>{
+        return element.name === person.name;
+      })
+      this.favouritePeople.splice(index,1);
+    }
+    localStorage.setItem("favouritePeople",JSON.stringify(this.favouritePeople));
+  }
+
+  isFavourite(element:any): boolean{
+    return this.favouritePeople.some(person=>{
+      return person.name === element.name;
+    })
   }
 }
