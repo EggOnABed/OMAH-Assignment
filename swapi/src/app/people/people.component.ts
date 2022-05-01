@@ -11,11 +11,14 @@ export class PeopleComponent {
 
   nextPageDataURL: string = "";
   prevPageDataURL: string = "";
-  displayedColumns: string[] = ['name'];
+  displayedColumns: string[] = ['name', 'markAsFavourite'];
   peopleList: Array<any> = [];
   dataSource:any = [];
+  favouritePeople: Array<any> = [];
 
   constructor(private http: HttpClient) {
+    debugger
+    this.favouritePeople = JSON.parse(localStorage.getItem("favouritePeople") || "[]");
     this.getPeople("https://swapi.dev/api/people/",true);
    }
 
@@ -54,9 +57,20 @@ export class PeopleComponent {
         this.nextPageDataURL = res.next;
         this.prevPageDataURL = res.previous;
         if(!this.nextPageDataURL){
-          
+
         }
       }
     });
+  }
+
+  markAsFavourite(element:any){
+    debugger;
+    // ADD TO LIST IF NOT ALREADY MARKED AS FAVOURITE
+    if(!this.favouritePeople.some(person=>{
+      return person.name === element.name;
+    })){
+      this.favouritePeople.push(element);
+      localStorage.setItem("favouritePeople",JSON.stringify(this.favouritePeople));
+    }
   }
 }
