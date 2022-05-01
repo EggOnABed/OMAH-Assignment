@@ -13,8 +13,9 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
   
-<mat-paginator [length]="dataSource.length+1"
-              [pageSize]="dataSource.length"
+<mat-paginator [length]="peopleList.length+1"
+              [pageSize]="10"
               (page)="onPaginateChange($event)"
-              aria-label="Select page">
+              aria-label="Select page"
+              #paginator>
 </mat-paginator>

@@ -23,7 +23,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     HttpClientModule,
     MatPaginatorModule
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

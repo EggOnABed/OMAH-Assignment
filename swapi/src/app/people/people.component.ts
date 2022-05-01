@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 
-let peopleList: Array<any> = [];
-
 @Component({
   selector: 'app-people',
   templateUrl: './people.component.html',
@@ -14,14 +12,12 @@ export class PeopleComponent {
   nextPageDataURL: string = "";
   prevPageDataURL: string = "";
   displayedColumns: string[] = ['name'];
+  peopleList: Array<any> = [];
   dataSource:any = [];
 
   constructor(private http: HttpClient) {
-    this.getPeople("https://swapi.dev/api/people/");
+    this.getPeople("https://swapi.dev/api/people/",true);
    }
-
-  ngOnInit(): void {
-  }
 
   onPaginateChange(event:PageEvent){
     debugger;
@@ -33,30 +29,33 @@ export class PeopleComponent {
       if(currentIndex + 1 === event.length){
         this.getPeople(this.nextPageDataURL);
         setTimeout(()=>{
-          this.dataSource = peopleList.slice(currentIndex,currentIndex + event.pageSize);
-        });
+          this.dataSource = this.peopleList.slice(currentIndex,currentIndex + event.pageSize);
+        },1000);
       }
       // DATA ALREADY PRESENT
       else{
-
+        this.dataSource = this.peopleList.slice(currentIndex,currentIndex + event.pageSize);
       }
     }
     // PREVIOUS
     else{
-      this.dataSource = peopleList.slice(previousPageIndex*event.pageSize,currentIndex*event.pageSize);
+      this.dataSource = this.peopleList.slice(currentIndex,previousPageIndex*event.pageSize);
     }
   }
 
-  async getPeople(APIurl:string){
+  async getPeople(APIurl:string, bindData:boolean = false){
     this.http.get(APIurl).subscribe((res:any)=>{
       debugger;
       if(res.count > 0){
         (res.results as Array<any>).forEach(person=>{
-          peopleList.push(person);
+          this.peopleList.push(person);
         });
-        this.dataSource = peopleList;
+        if(bindData) this.dataSource = this.peopleList;
         this.nextPageDataURL = res.next;
         this.prevPageDataURL = res.previous;
+        if(!this.nextPageDataURL){
+          
+        }
       }
     });
   }
