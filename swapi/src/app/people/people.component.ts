@@ -17,9 +17,7 @@ export class PeopleComponent {
   dataSource:any = [];
 
   constructor(private http: HttpClient) {
-    this.getPeople("https://swapi.dev/api/people/").then(()=>{
-      this.dataSource = peopleList;
-    });
+    this.getPeople("https://swapi.dev/api/people/");
    }
 
   ngOnInit(): void {
@@ -28,16 +26,24 @@ export class PeopleComponent {
   onPaginateChange(event:PageEvent){
     debugger;
     const previousPageIndex = event.previousPageIndex ? event.previousPageIndex : 0;
+    const currentIndex: number = event.pageIndex*event.pageSize;
     // NEXT
     if(event.pageIndex > previousPageIndex){
-      this.getPeople(this.nextPageDataURL).then(()=>{
-        const startIndex: number = event.pageIndex*event.pageSize;
-        this.dataSource = peopleList.slice(startIndex,startIndex + event.pageSize);
-      });
+      // CALL API
+      if(currentIndex + 1 === event.length){
+        this.getPeople(this.nextPageDataURL);
+        setTimeout(()=>{
+          this.dataSource = peopleList.slice(currentIndex,currentIndex + event.pageSize);
+        });
+      }
+      // DATA ALREADY PRESENT
+      else{
+
+      }
     }
     // PREVIOUS
     else{
-      this.dataSource = peopleList.slice()
+      this.dataSource = peopleList.slice(previousPageIndex*event.pageSize,currentIndex*event.pageSize);
     }
   }
 
@@ -48,10 +54,10 @@ export class PeopleComponent {
         (res.results as Array<any>).forEach(person=>{
           peopleList.push(person);
         });
+        this.dataSource = peopleList;
         this.nextPageDataURL = res.next;
         this.prevPageDataURL = res.previous;
       }
-    })
+    });
   }
-
 }
